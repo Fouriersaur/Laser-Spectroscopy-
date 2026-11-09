@@ -1,0 +1,4 @@
+# Large raw data files (too big for GitHub, kept locally)
+*.csv
+*.CSV
+*.npy
