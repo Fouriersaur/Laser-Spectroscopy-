@@ -2,8 +2,14 @@
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
+from pathlib import Path
 
-CACHE = "6th_Nov_Doppler_Free.npy"  # created by plot_doppler_free.py
+ROOT = Path(__file__).resolve().parent.parent
+RAW, CACHE_DIR, FIG, RES = ROOT / "data/raw", ROOT / "data/cache", ROOT / "figures", ROOT / "results"
+FIG = FIG / "doppler_free_6Nov"
+FIG.mkdir(parents=True, exist_ok=True)
+
+CACHE = CACHE_DIR / "6th_Nov_Doppler_Free.npy"  # created by plot_doppler_free.py
 T_MIN, T_MAX = (float(x) for x in sys.argv[1:3]) if len(sys.argv) >= 3 else (-8.5e-3, -3.5e-3)
 
 data = np.load(CACHE)
@@ -41,7 +47,7 @@ ax2.set_ylabel("Photodiode voltage, C3 (V)")
 ax2.grid(alpha=0.3)
 
 fig.tight_layout()
-out = "doppler_free_6Nov_zoom.png"
+out = FIG / "doppler_free_6Nov_zoom.png"
 fig.savefig(out, dpi=200)
 print(f"saved {out}")
 plt.show()

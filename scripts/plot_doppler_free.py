@@ -2,9 +2,15 @@
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
+from pathlib import Path
 
-FILE = sys.argv[1] if len(sys.argv) > 1 else "6th_Nov_Doppler_Free.CSV"
-CACHE = FILE.rsplit(".", 1)[0] + ".npy"
+ROOT = Path(__file__).resolve().parent.parent
+RAW, CACHE_DIR, FIG, RES = ROOT / "data/raw", ROOT / "data/cache", ROOT / "figures", ROOT / "results"
+FIG = FIG / "doppler_free_6Nov"
+FIG.mkdir(parents=True, exist_ok=True)
+
+FILE = Path(sys.argv[1]) if len(sys.argv) > 1 else RAW / "6th_Nov_Doppler_Free.CSV"
+CACHE = CACHE_DIR / (FILE.stem + ".npy")
 
 # 10M rows -> cache as .npy after first parse
 try:
@@ -34,7 +40,7 @@ ax.set_title("Doppler-free saturated absorption spectrum of Rb (6 Nov)")
 ax.legend()
 ax.grid(alpha=0.3)
 fig.tight_layout()
-out = "doppler_free_6Nov.png"
+out = FIG / "doppler_free_6Nov.png"
 fig.savefig(out, dpi=200)
 print(f"saved {out}; {len(t)} pts, dt={t[1]-t[0]:.3e} s, span {t[0]*1e3:.2f}..{t[-1]*1e3:.2f} ms")
 plt.show()
